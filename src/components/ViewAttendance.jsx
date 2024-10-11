@@ -30,7 +30,6 @@ const Attendance = () => {
           attendance.map((att) => moment(att.date).format('YYYY-MM-DD')) // Extract the date (without time)
         )
       );
-      console.log('Unique attendance dates:', uniqueDates); // Debug: log unique dates
       setAttendanceDates(uniqueDates); // Store the unique dates in state
       setHasData(true); // Indicate that we have data
       setLoading(false); // Set loading to false once data is ready
@@ -48,18 +47,24 @@ const Attendance = () => {
           <Badge status="success" text="Present" />
         </div>
       );
+    } else {
+      return (
+        <div>
+          <Badge status="Error" text="" />
+        </div>
+      );
     }
     return null; // No badge for dates not in attendanceDates
   };
 
   return (
     <div className="container mx-auto p-4">
-      <h2 className="text-2xl font-semibold mb-4">Attendance</h2>
+      <h2 className="text-2xl text-yellow-500 font-semibold mb-4">Attendance</h2>
 
       {loading ? (
         <Spin />
       ) : hasData ? (
-        <Calendar dateCellRender={dateCellRender} />
+        <Calendar cellRender={dateCellRender} fullscreen={false}/>
       ) : (
         <Empty description="No attendance data available" />
       )}

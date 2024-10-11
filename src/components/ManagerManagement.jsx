@@ -65,11 +65,9 @@ const ManagerManagement = () => {
     }
 
     if (isAddingManager) {
-      // Dispatch action to add manager
       dispatch(addManager(values));
       message.success('Manager added successfully');
     } else {
-      // Dispatch action to update manager
       dispatch(updateManager({ id: editingManager._id, updatedManager: values }));
       message.success('Manager updated successfully');
     }
@@ -107,16 +105,15 @@ const ManagerManagement = () => {
       key: 'actions',
       className: 'text-center',
       render: (text, record) => (
-        <div className="flex justify-center">
+        <div className="flex justify-center space-x-2">
           <Button
             type="primary"
             onClick={() => handleUpdateManager(record)}
-            className="mr-2"
-            style={{ backgroundColor: 'rgb(221, 201, 122)', color: '#000' }}
+            className="bg-yellow-300 text-black"
           >
             Update
           </Button>
-          <Button type="danger" onClick={() => handleRemoveManager(record._id)} style={{ backgroundColor: '#FF5733', color: '#fff' }}>
+          <Button type="danger" onClick={() => handleRemoveManager(record._id)} className="bg-red-500 text-white">
             Remove
           </Button>
           <Button type="default" onClick={() => handleViewAttendance(record._id)}>
@@ -131,16 +128,16 @@ const ManagerManagement = () => {
   ];
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: 'rgb(29, 61, 36)' }}>
-      <div className="container mx-auto p-6" style={{ backgroundColor: 'rgb(29, 61, 36)', color: '#FFD700' }}>
-        <h2 className="text-3xl font-bold mb-6" style={{ color: '#FFD700', textAlign: 'center' }}>Manager Management</h2>
+    <div className="min-h-screen bg-green-900 text-yellow-500">
+      <div className="container mx-auto p-6">
+        <h2 className="text-3xl font-bold mb-6 text-center">Manager Management</h2>
 
         {/* Add Manager Button */}
         <div className="text-right mb-4">
           <Button
             type="primary"
             onClick={handleAddManager}
-            style={{ backgroundColor: 'rgb(221, 201, 122)', color: '#000' }}
+            className="bg-yellow-300 text-black"
           >
             Add Manager
           </Button>
@@ -154,8 +151,8 @@ const ManagerManagement = () => {
           rowKey={(record) => record._id}
           pagination={{ pageSize: 10 }}
           bordered
-          style={{ backgroundColor: '#fff', borderRadius: '8px', overflow: 'hidden', marginTop: '20px' }}
-          className="text-center"
+          scroll={{ x: '100%' }} // Enable horizontal scrolling for the table on mobile
+          className="bg-white rounded-lg overflow-hidden mt-4"
         />
       </div>
 
@@ -165,7 +162,7 @@ const ManagerManagement = () => {
         visible={isModalVisible}
         onCancel={() => setIsModalVisible(false)}
         footer={null}
-        style={{ borderRadius: '10px', padding: '20px' }} // Improve modal appearance
+        className="rounded-lg"
       >
         <Form
           form={form}
@@ -177,40 +174,40 @@ const ManagerManagement = () => {
             label="Manager Name"
             rules={[{ required: true, message: 'Please enter the manager name!' }]}
           >
-            <Input style={{ borderColor: '#FFD700', color: '#000' }} />
+            <Input className="border-yellow-500 text-black" />
           </Form.Item>
           <Form.Item
             name="email"
             label="Email"
             rules={[{ required: true, message: 'Please enter the email!' }]}
           >
-            <Input style={{ borderColor: '#FFD700', color: '#000' }} />
+            <Input className="border-yellow-500 text-black" />
           </Form.Item>
           <Form.Item
             name="city"
             label="City"
             rules={[{ required: true, message: 'Please enter the city!' }]}
           >
-            <Input style={{ borderColor: '#FFD700', color: '#000' }} />
+            <Input className="border-yellow-500 text-black" />
           </Form.Item>
           <Form.Item
             name="phone"
             label="Phone"
             rules={[{ required: true, message: 'Please enter the phone number!' }]}
           >
-            <Input style={{ borderColor: '#FFD700', color: '#000' }} />
+            <Input className="border-yellow-500 text-black" />
           </Form.Item>
           <Form.Item name="dob" label="Date of Birth">
             <DatePicker style={{ width: '100%', padding: '10px', borderColor: '#FFD700' }} />
           </Form.Item>
           <Form.Item name="password" label="Password">
-            <Input.Password style={{ borderColor: '#FFD700', color: '#000' }} />
+            <Input.Password className="border-yellow-500 text-black" />
           </Form.Item>
           <Form.Item name="confirmPassword" label="Confirm Password">
-            <Input.Password style={{ borderColor: '#FFD700', color: '#000' }} />
+            <Input.Password className="border-yellow-500 text-black" />
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit" style={{ backgroundColor: 'rgb(221, 201, 122)', color: '#000' }}>
+            <Button type="primary" htmlType="submit" className="bg-yellow-300 text-black">
               {isAddingManager ? 'Add Manager' : 'Update Manager'}
             </Button>
           </Form.Item>

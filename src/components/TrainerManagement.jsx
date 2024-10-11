@@ -23,7 +23,7 @@ const TrainerManagement = () => {
   const handleAddTrainer = () => {
     setIsAddingTrainer(true);
     setIsModalVisible(true);
-    form.resetFields(); // Reset the form for adding new trainer
+    form.resetFields(); // Reset the form for adding a new trainer
   };
 
   const handleUpdateTrainer = (trainer) => {
@@ -65,11 +65,9 @@ const TrainerManagement = () => {
     }
 
     if (isAddingTrainer) {
-      // Dispatch action to add trainer
       dispatch(addTrainer(values));
       message.success('Trainer added successfully');
     } else {
-      // Dispatch action to update trainer
       dispatch(updateTrainer({ id: editingTrainer._id, updatedTrainer: values }));
       message.success('Trainer updated successfully');
     }
@@ -107,16 +105,15 @@ const TrainerManagement = () => {
       key: 'actions',
       className: 'text-center',
       render: (text, record) => (
-        <div className="flex justify-center">
+        <div className="flex justify-center space-x-2">
           <Button
             type="primary"
             onClick={() => handleUpdateTrainer(record)}
-            className="mr-2"
-            style={{ backgroundColor: 'rgb(221, 201, 122)', color: '#000' }}
+            className="bg-yellow-300 text-black"
           >
             Update
           </Button>
-          <Button type="danger" onClick={() => handleRemoveTrainer(record._id)} style={{ backgroundColor: '#FF5733', color: '#fff' }}>
+          <Button type="danger" onClick={() => handleRemoveTrainer(record._id)} className="bg-red-500 text-white">
             Remove
           </Button>
           <Button type="default" onClick={() => handleViewAttendance(record._id)}>
@@ -131,16 +128,16 @@ const TrainerManagement = () => {
   ];
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: 'rgb(29, 61, 36)' }}>
-      <div className="container mx-auto p-6" style={{ backgroundColor: 'rgb(29, 61, 36)', color: '#FFD700' }}>
-        <h2 className="text-3xl font-bold mb-6" style={{ color: '#FFD700', textAlign: 'center' }}>Trainer Management</h2>
+    <div className="min-h-screen bg-green-900 text-yellow-500">
+      <div className="container mx-auto p-6">
+        <h2 className="text-3xl font-bold mb-6 text-center">Trainer Management</h2>
 
         {/* Add Trainer Button */}
         <div className="text-right mb-4">
           <Button
             type="primary"
             onClick={handleAddTrainer}
-            style={{ backgroundColor: 'rgb(221, 201, 122)', color: '#000' }}
+            className="bg-yellow-300 text-black"
           >
             Add Trainer
           </Button>
@@ -154,8 +151,8 @@ const TrainerManagement = () => {
           rowKey={(record) => record._id}
           pagination={{ pageSize: 10 }}
           bordered
-          style={{ backgroundColor: '#fff', borderRadius: '8px', overflow: 'hidden', marginTop: '20px' }}
-          className="text-center"
+          scroll={{ x: '100%' }} // Enable horizontal scroll for the table
+          className="bg-white rounded-lg overflow-hidden mt-4"
         />
       </div>
 
@@ -165,7 +162,7 @@ const TrainerManagement = () => {
         visible={isModalVisible}
         onCancel={() => setIsModalVisible(false)}
         footer={null}
-        style={{ borderRadius: '10px', padding: '20px' }} // Improve modal appearance
+        className="rounded-lg"
       >
         <Form
           form={form}
@@ -177,40 +174,40 @@ const TrainerManagement = () => {
             label="Trainer Name"
             rules={[{ required: true, message: 'Please enter the trainer name!' }]}
           >
-            <Input style={{ borderColor: '#FFD700', color: '#000' }} />
+            <Input className="border-yellow-500 text-black" />
           </Form.Item>
           <Form.Item
             name="email"
             label="Email"
             rules={[{ required: true, message: 'Please enter the email!' }]}
           >
-            <Input style={{ borderColor: '#FFD700', color: '#000' }} />
+            <Input className="border-yellow-500 text-black" />
           </Form.Item>
           <Form.Item
             name="city"
             label="City"
             rules={[{ required: true, message: 'Please enter the city!' }]}
           >
-            <Input style={{ borderColor: '#FFD700', color: '#000' }} />
+            <Input className="border-yellow-500 text-black" />
           </Form.Item>
           <Form.Item
             name="phone"
             label="Phone"
             rules={[{ required: true, message: 'Please enter the phone number!' }]}
           >
-            <Input style={{ borderColor: '#FFD700', color: '#000' }} />
+            <Input className="border-yellow-500 text-black" />
           </Form.Item>
           <Form.Item name="dob" label="Date of Birth">
-            <DatePicker style={{ width: '100%', padding: '10px', borderColor: '#FFD700' }} />
+            <DatePicker style={{ width: '100%', borderColor: '#FFD700' }} />
           </Form.Item>
           <Form.Item name="password" label="Password">
-            <Input.Password style={{ borderColor: '#FFD700', color: '#000' }} />
+            <Input.Password className="border-yellow-500 text-black" />
           </Form.Item>
           <Form.Item name="confirmPassword" label="Confirm Password">
-            <Input.Password style={{ borderColor: '#FFD700', color: '#000' }} />
+            <Input.Password className="border-yellow-500 text-black" />
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit" style={{ backgroundColor: 'rgb(221, 201, 122)', color: '#000' }}>
+            <Button type="primary" htmlType="submit" className="bg-yellow-300 text-black">
               {isAddingTrainer ? 'Add Trainer' : 'Update Trainer'}
             </Button>
           </Form.Item>

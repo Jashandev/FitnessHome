@@ -4,6 +4,7 @@ import Select from 'react-select';
 import { fetchUsersByFilter } from '../Store/Slices/usersSlice';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
+import { Button } from 'antd';
 
 // Filter options for user categories
 const filterOptions = [
@@ -30,7 +31,13 @@ const UserFilterExport = () => {
 
   // Export the filtered users to Excel
   const exportToExcel = () => {
-    const worksheet = XLSX.utils.json_to_sheet(users);
+    const worksheet = XLSX.utils.json_to_sheet(users.map(user => ({
+      Name: user.name,
+      Email: user.email,
+      City: user.city,
+      Phone: user.phone,
+      Plan: user.plan ? user.plan.planName : 'No Plan',
+    })));
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Users');
     const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
@@ -39,9 +46,9 @@ const UserFilterExport = () => {
   };
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: 'rgb(29, 61, 36)' }}>
-      <div className="container mx-auto p-6" style={{ backgroundColor: 'rgb(29, 61, 36)', color: '#FFD700' }}>
-        <h2 className="text-3xl font-bold mb-6" style={{ color: '#FFD700', textAlign: 'center' }}>Filter and Export Users</h2>
+    <div className="min-h-screen bg-[#1d3d24] text-yellow-500">
+      <div className="container mx-auto p-6">
+        <h2 className="text-3xl font-bold mb-6 text-center">Filter and Export Users</h2>
 
         {/* Dropdown for selecting filter */}
         <Select
@@ -61,23 +68,22 @@ const UserFilterExport = () => {
         />
 
         {/* Button to apply the filter */}
-        <button
+        <Button
           onClick={handleFilter}
-          className="bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-700"
-          style={{ backgroundColor: 'rgb(221, 201, 122)', color: '#000', borderRadius: '8px' }}
+          className="bg-yellow-300 text-black px-4 py-2 rounded-md shadow-md hover:bg-yellow-400"
         >
           Apply Filter
-        </button>
+        </Button>
 
         {/* Display loading, error, or users */}
         {loading ? (
-          <p className="text-blue-600">Loading users...</p>
+          <p className="text-blue-600 mt-4">Loading users...</p>
         ) : error ? (
-          <p className="text-red-600">Error: {error}</p>
+          <p className="text-red-600 mt-4">Error: {error}</p>
         ) : users.length > 0 ? (
           <table className="min-w-full bg-white shadow-md rounded-lg mt-4">
             <thead>
-              <tr style={{ backgroundColor: '#FFD700', color: '#000' }}>
+              <tr className="bg-yellow-300 text-black">
                 <th className="border px-4 py-2">Name</th>
                 <th className="border px-4 py-2">Email</th>
                 <th className="border px-4 py-2">City</th>
@@ -89,10 +95,7 @@ const UserFilterExport = () => {
               {users.map((user, index) => (
                 <tr
                   key={user._id}
-                  style={{
-                    backgroundColor: index % 2 === 0 ? '#F0F0F0' : '#FFFFFF',
-                    color: '#000',
-                  }}
+                  className={`${index % 2 === 0 ? 'bg-gray-100' : 'bg-white'} text-black`}
                 >
                   <td className="border px-4 py-2">{user.name}</td>
                   <td className="border px-4 py-2">{user.email}</td>
@@ -103,21 +106,18 @@ const UserFilterExport = () => {
               ))}
             </tbody>
           </table>
-
-
         ) : (
           <p className="text-gray-500 mt-4">No users found.</p>
         )}
 
         {/* Button to export to Excel */}
         {users.length > 0 && (
-          <button
+          <Button
             onClick={exportToExcel}
-            className="mt-4 bg-green-500 text-white px-4 py-2 rounded shadow hover:bg-green-700"
-            style={{ backgroundColor: 'rgb(221, 201, 122)', color: '#000', borderRadius: '8px' }}
+            className="mt-4 bg-green-500 text-black px-4 py-2 rounded-md shadow-md hover:bg-green-600"
           >
             Export to Excel
-          </button>
+          </Button>
         )}
       </div>
     </div>

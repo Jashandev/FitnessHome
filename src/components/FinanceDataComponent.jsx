@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchDebitEntries, fetchCreditEntries } from '../Store/Slices/financeSlice';
 import { Table, Spin, message, DatePicker, Button } from 'antd';
 import * as XLSX from 'xlsx';
-import { ExportOutlined, DownloadOutlined } from '@ant-design/icons';
+import { ExportOutlined } from '@ant-design/icons';
 import moment from 'moment';
 
 const { RangePicker } = DatePicker;
@@ -13,7 +13,6 @@ const FinanceData = () => {
   const { debitEntries, creditEntries, loading, error } = useSelector((state) => state.Finance);
   const [filteredDebitEntries, setFilteredDebitEntries] = useState([]);
   const [filteredCreditEntries, setFilteredCreditEntries] = useState([]);
-  const [dateRange, setDateRange] = useState([null, null]);
   const [profitLoss, setProfitLoss] = useState(0);
 
   useEffect(() => {
@@ -89,11 +88,11 @@ const FinanceData = () => {
       render: (description) => <span>{description}</span>,
     },
     {
-        title: 'User',
-        dataIndex: 'createdBy',
-        key: '_id',
-        render: (createdBy) => <span>{createdBy.name} ({createdBy.email})</span>,
-      },
+      title: 'User',
+      dataIndex: 'createdBy',
+      key: '_id',
+      render: (createdBy) => <span>{createdBy.name} ({createdBy.email})</span>,
+    },
     {
       title: 'Amount',
       dataIndex: 'amount',
@@ -143,12 +142,12 @@ const FinanceData = () => {
   }
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: 'rgb(29, 61, 36)' }}>
-      <div className="container mx-auto p-6" style={{ backgroundColor: 'rgb(29, 61, 36)', color: '#FFD700' }}>
-        <h2 className="text-3xl font-bold mb-6" style={{ color: '#FFD700', textAlign: 'center' }}>Finance Data</h2>
+    <div className="min-h-screen bg-green-900 text-yellow-500">
+      <div className="container mx-auto p-6">
+        <h2 className="text-3xl font-bold mb-6 text-center">Finance Data</h2>
 
         {/* Date Filter and Export Button */}
-        <div className="mb-4 flex items-center space-x-4">
+        <div className="mb-4 flex flex-wrap items-center justify-between space-y-4 md:space-y-0">
           <RangePicker 
             onChange={handleDateRangeChange} 
             style={{ borderColor: '#FFD700', borderRadius: '8px', color: '#000' }} 
@@ -157,7 +156,7 @@ const FinanceData = () => {
             type="primary"
             icon={<ExportOutlined />}
             onClick={exportToExcel}
-            style={{ backgroundColor: 'rgb(221, 201, 122)', color: '#000', borderRadius: '8px' }}
+            className="bg-yellow-300 text-black rounded-md"
           >
             Export to Excel
           </Button>
@@ -171,7 +170,8 @@ const FinanceData = () => {
           rowKey="_id"
           pagination={{ pageSize: 10 }}
           bordered
-          style={{ backgroundColor: '#fff', borderRadius: '8px', marginBottom: '20px' }}
+          scroll={{ x: '100%' }} // Ensure table is scrollable on smaller screens
+          className="bg-white rounded-lg mb-6"
         />
 
         {/* Credit Entries Table */}
@@ -182,7 +182,8 @@ const FinanceData = () => {
           rowKey="_id"
           pagination={{ pageSize: 10 }}
           bordered
-          style={{ backgroundColor: '#fff', borderRadius: '8px' }}
+          scroll={{ x: '100%' }} // Ensure table is scrollable on smaller screens
+          className="bg-white rounded-lg"
         />
 
         {/* Profit/Loss Display */}

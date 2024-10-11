@@ -82,22 +82,22 @@ const ViewExpenses = () => {
     ];
 
     return (
-        <div className="min-h-screen" style={{ backgroundColor: 'rgb(29, 61, 36)' }}>
-            <div className="container mx-auto p-6" style={{ backgroundColor: 'rgb(29, 61, 36)', color: '#FFD700' }}>
-                <h2 className="text-3xl font-bold mb-6" style={{ color: '#FFD700', textAlign: 'center' }}>View Expenses</h2>
+        <div className="min-h-screen bg-green-900 text-yellow-500">
+            <div className="container mx-auto p-6">
+                <h2 className="text-3xl font-bold mb-6 text-center">View Expenses</h2>
 
                 {/* Date Filter and Export Button */}
-                <div className="mb-4 flex items-center space-x-4">
+                <div className="mb-4 flex flex-wrap items-center justify-between space-y-4 md:space-y-0">
                     <RangePicker 
                         onChange={handleDateRangeChange} 
-                        style={{ borderColor: '#FFD700', borderRadius: '8px', color: '#000' }} 
+                        style={{ borderColor: '#FFD700', borderRadius: '8px' }} 
                     />
                     <Button
                         type="primary"
                         icon={<ExportOutlined />}
                         onClick={exportToExcel}
                         disabled={filteredExpenses.length === 0}
-                        style={{ backgroundColor: 'rgb(221, 201, 122)', color: '#000', borderRadius: '8px' }}
+                        className="bg-yellow-300 text-black rounded-md"
                     >
                         Export to Excel
                     </Button>
@@ -110,7 +110,8 @@ const ViewExpenses = () => {
                     rowKey="_id"
                     pagination={{ pageSize: 10 }}
                     bordered
-                    style={{ backgroundColor: '#fff', borderRadius: '8px' }}
+                    scroll={{ x: '100%' }} // Enable scroll on smaller screens
+                    className="bg-white rounded-lg"
                 />
             </div>
         </div>

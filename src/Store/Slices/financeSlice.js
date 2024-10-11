@@ -1,4 +1,5 @@
 // financeSlice.js
+var Host = import.meta.env.VITE_BACKEND_URL;
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import Cookies from 'js-cookie';
@@ -8,7 +9,7 @@ export const fetchDebitEntries = createAsyncThunk(
   'finance/fetchDebitEntries',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get('http://localhost:5000/api/getallexpense' , {
+      const response = await axios.get(`${Host}/api/getallexpense` , {
         headers: {
             token: Cookies.get('token'), // Pass token in Authorization header
           },
@@ -26,7 +27,7 @@ export const fetchCreditEntries = createAsyncThunk(
   'finance/fetchCreditEntries',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get('http://localhost:5000/api/getallinvoices', {
+      const response = await axios.get(`${Host}/api/getallinvoices` , {
         headers: {
             token: Cookies.get('token'), // Pass token in Authorization header
           },

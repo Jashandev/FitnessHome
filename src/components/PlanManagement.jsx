@@ -155,6 +155,7 @@ const PlanManagement = () => {
         rowKey={(record) => record._id}
         pagination={false}
         bordered
+        scroll={{ x: '100%' }} // Enable horizontal scroll for the table
         style={{ backgroundColor: '#fff', borderRadius: '8px', overflow: 'hidden', marginTop: '20px' }}
         className="text-center"
       />

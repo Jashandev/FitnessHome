@@ -78,9 +78,7 @@ function Navbarcom(props) {
                     <Link to="/Dashboard" className="flex items-center space-x-3">
                         {/* Updated logo */}
                         <img src={logo} className="h-8" alt="Fitness Home Logo" />
-                        <span className="self-center text-2xl font-semibold text-yellow-500">
-                            Fitness Home
-                        </span>
+                        <span className="self-center text-xl font-semibold text-yellow-500 hidden md:block">FitnessHome</span>
                     </Link>
 
                     <div className="flex items-center md:order-2 space-x-3">

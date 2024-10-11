@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 const UserManagement = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { users, status, error } = useSelector((state) => state.User);
+  const { users, status } = useSelector((state) => state.User);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isAddingUser, setIsAddingUser] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
@@ -81,11 +81,9 @@ const UserManagement = () => {
     }
 
     if (isAddingUser) {
-      // Dispatch action to add user
       dispatch(addUser(values));
       message.success('User added successfully');
     } else {
-      // Dispatch action to update user
       dispatch(updateUser({ id: editingUser._id, userData: values }));
       message.success('User updated successfully');
     }
@@ -123,7 +121,6 @@ const UserManagement = () => {
       key: 'plan',
       className: 'text-center',
       render: (text, record) => {
-        // Assuming you have a plan object to fetch plan name
         return record.plan ? record.plan.planName : 'No Plan';
       },
     },
@@ -132,7 +129,6 @@ const UserManagement = () => {
       key: 'trainer',
       className: 'text-center',
       render: (text, record) => {
-        // Assuming record contains trainer details
         return record.trainer ? record.trainer.name : 'No Trainer';
       },
     },
@@ -151,25 +147,24 @@ const UserManagement = () => {
       key: 'actions',
       className: 'text-center',
       render: (text, record) => (
-        <div className="flex justify-center">
+        <div className="flex justify-center space-x-2">
           <Button
             type="primary"
             onClick={() => handleUpdateUser(record)}
-            className="mr-2"
-            style={{ backgroundColor: 'rgb(221, 201, 122)', color: '#000', borderRadius: '8px' }}
+            className="bg-yellow-300 text-black rounded-md"
           >
             Update
           </Button>
-          <Button type="danger" onClick={() => handleRemoveUser(record._id)} style={{ backgroundColor: '#FF5733', color: '#fff', borderRadius: '8px' }}>
+          <Button type="danger" onClick={() => handleRemoveUser(record._id)} className="bg-red-500 text-white rounded-md">
             Remove
           </Button>
-          <Button type="default" onClick={() => handleChangePassword(record._id)} style={{ borderRadius: '8px' }}>
+          <Button type="default" onClick={() => handleChangePassword(record._id)} className="rounded-md">
             Change Password
           </Button>
-          <Button type="default" onClick={() => handleViewAttendance(record._id)} style={{ borderRadius: '8px', marginLeft: '8px' }}>
+          <Button type="default" onClick={() => handleViewAttendance(record._id)} className="rounded-md">
             View Attendance
           </Button>
-          <Button type="default" onClick={() => handleAttendance(record._id)} style={{ borderRadius: '8px', marginLeft: '8px' }}>
+          <Button type="default" onClick={() => handleAttendance(record._id)} className="rounded-md">
             Mark Attendance
           </Button>
         </div>
@@ -178,16 +173,16 @@ const UserManagement = () => {
   ];
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: 'rgb(29, 61, 36)' }}>
-      <div className="container mx-auto p-6" style={{ backgroundColor: 'rgb(29, 61, 36)', color: '#FFD700' }}>
-        <h2 className="text-3xl font-bold mb-6" style={{ color: '#FFD700', textAlign: 'center' }}>User Management</h2>
+    <div className="min-h-screen bg-green-900 text-yellow-500">
+      <div className="container mx-auto p-6">
+        <h2 className="text-3xl font-bold mb-6 text-center">User Management</h2>
 
         {/* Add User Button */}
         <div className="text-right mb-4">
           <Button
             type="primary"
             onClick={handleAddUser}
-            style={{ backgroundColor: 'rgb(221, 201, 122)', color: '#000', borderRadius: '8px' }}
+            className="bg-yellow-300 text-black rounded-md"
           >
             Add User
           </Button>
@@ -201,8 +196,8 @@ const UserManagement = () => {
           rowKey={(record) => record._id}
           pagination={{ pageSize: 10 }}
           bordered
-          style={{ backgroundColor: '#fff', borderRadius: '8px', overflow: 'hidden', marginTop: '20px' }}
-          className="text-center"
+          scroll={{ x: '100%' }} // Enables horizontal scrolling for smaller screens
+          className="bg-white rounded-lg mt-4"
         />
       </div>
 
@@ -212,7 +207,7 @@ const UserManagement = () => {
         visible={isModalVisible}
         onCancel={() => setIsModalVisible(false)}
         footer={null}
-        style={{ borderRadius: '10px', padding: '20px' }}
+        className="rounded-lg"
       >
         <Form form={form} layout="vertical" onFinish={handleFormSubmit}>
           <Form.Item
@@ -220,58 +215,57 @@ const UserManagement = () => {
             label="User Name"
             rules={[{ required: true, message: 'Please enter the user name!' }]}
           >
-            <Input style={{ borderColor: '#FFD700', color: '#000', borderRadius: '8px' }} />
+            <Input className="border-yellow-500 rounded-md text-black" />
           </Form.Item>
           <Form.Item
             name="email"
             label="Email"
             rules={[{ required: true, message: 'Please enter the email!' }]}
           >
-            <Input style={{ borderColor: '#FFD700', color: '#000', borderRadius: '8px' }} />
+            <Input className="border-yellow-500 rounded-md text-black" />
           </Form.Item>
           <Form.Item
             name="address"
             label="Address"
             rules={[{ required: true, message: 'Please enter the address!' }]}
           >
-            <Input style={{ borderColor: '#FFD700', color: '#000', borderRadius: '8px' }} />
+            <Input className="border-yellow-500 rounded-md text-black" />
           </Form.Item>
           <Form.Item
             name="city"
             label="City"
             rules={[{ required: true, message: 'Please enter the city!' }]}
           >
-            <Input style={{ borderColor: '#FFD700', color: '#000', borderRadius: '8px' }} />
+            <Input className="border-yellow-500 rounded-md text-black" />
           </Form.Item>
           <Form.Item
             name="phone"
             label="Phone"
-            rules={[{ type: 'number', min:1000000000 , required: true, message: 'Please enter the phone number!' },]}
+            rules={[{ type: 'number', min: 1000000000, required: true, message: 'Please enter a valid phone number!' }]}
           >
-            <InputNumber style={{ borderColor: '#FFD700', color: '#000', borderRadius: '8px' }} maxLength={10} />
+            <InputNumber className="border-yellow-500 rounded-md text-black w-full" />
           </Form.Item>
-        
           <Form.Item
             name="bloodGroup"
             label="Blood Group"
             rules={[{ required: true, message: 'Please enter the blood group!' }]}
           >
-            <Input style={{ borderColor: '#FFD700', color: '#000', borderRadius: '8px' }} />
+            <Input className="border-yellow-500 rounded-md text-black" />
           </Form.Item>
           <Form.Item name="dob" label="Date of Birth">
-            <DatePicker style={{ width: '100%', padding: '10px', borderColor: '#FFD700', borderRadius: '8px' }} />
+            <DatePicker className="w-full border-yellow-500 rounded-md" />
           </Form.Item>
           <Form.Item name="password" label="Password">
-            <Input.Password style={{ borderColor: '#FFD700', color: '#000', borderRadius: '8px' }} />
+            <Input.Password className="border-yellow-500 rounded-md text-black" />
           </Form.Item>
           <Form.Item name="confirmPassword" label="Confirm Password">
-            <Input.Password style={{ borderColor: '#FFD700', color: '#000', borderRadius: '8px' }} />
+            <Input.Password className="border-yellow-500 rounded-md text-black" />
           </Form.Item>
           <Form.Item>
             <Button
               type="primary"
               htmlType="submit"
-              style={{ backgroundColor: '#FFD700', color: '#000', borderRadius: '8px', width: '100%' }}
+              className="bg-yellow-300 text-black rounded-md w-full"
             >
               {isAddingUser ? 'Add User' : 'Update User'}
             </Button>
